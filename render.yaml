@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: prod-graphql-gitconnected
+    plan: starter
+    env: docker
+    region: oregon
+    autoDeploy: false
+    healthCheckPath: /healthz
+    envVars:
+      - key: HASURA_GRAPHQL_DATABASE_URL
+        fromDatabase:
+          name: prod-db-gitconnected
+          property: connectionString
+      - key: HASURA_GRAPHQL_ENABLE_CONSOLE
+        value: true
+      - key: HASURA_GRAPHQL_UNAUTHORIZED_ROLE
+        value: anonymous
+databases:
+  - name: prod-db-gitconnected
+    postgresMajorVersion: 16
+    region: oregon
+    plan: standard
